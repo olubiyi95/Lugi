@@ -1,0 +1,12 @@
+export const SIGN_UP = "SIGN_UP";
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+export const ADD_ADMIN_AS_USER = "ADD_ADMIN";
+export const SIGNUP_EMPLOYEE = "SIGNUP_EMPLOYEE";
+export const LOGIN_EMPLOYEE = "LOGIN_EMPLOYEE";
+export const ADD_EMPLOYEE = "ADD_EMPLOYEE";
+export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
+export const DELETE_EMPLOYEES = "DELETE_EMPLOYEES";
+export const UPDATE_EMPLOYEE = "UPDATE_EMPLOYEE";
+export const GET_EMPLOYEE = "GET_EMPLOYEE";
+export const GET_EMPLOYEES = "GET_EMPLOYEES";

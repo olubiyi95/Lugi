@@ -1,0 +1,74 @@
+
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-list, .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list {
+    position: relative;
+   top: auto;
+    margin-left: 540px;
+    display: flex;
+    transition: transform 0.3s;
+}
+.tabs .ant-tabs-tab .anticon {
+    margin-right: 0px;
+    justify-content: center;
+    align-items: center;
+}
+.tabs .ant-tabs-tab-btn {
+    outline: none;
+    transition: all 0.3s;
+    background: #123!important;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+  
+}
+.tabs{
+   display: flex;
+}
+.tab-panel {
+    margin-left: 500px;
+}
+.tabs-btn {
+    width: 60px;
+    height: 50px;
+    border-radius: 14px;
+    color: #fff;
+    background-color: red;
+    position: relative;
+    top: -15px;
+    border: none;
+}
+.tab-btn {
+    width: 160px;
+    height: 50px;
+    border-radius: 14px;
+    color: #fff;
+    background-color: #282c34!important;
+    position: relative;
+    top: -15px;
+    border: none;
+    margin-left: 25px;
+}
+.tab-panel .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: red!important;
+    width: 70px;
+}
+.tab-panel .nav-pills .nav-link {
+    background: 0 0;
+    border: 0;
+    border-radius: 0.25rem;
+    color: #fff;
+    background-color: #282c34!important;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+}
+.ant-modal-footer {
+    padding: 10px 16px;
+    text-align: right;
+    background: transparent;
+    border-top: 1px solid #f0f0f0;
+    border-radius: 0 0 2px 2px;
+    display: none!important;
+} 

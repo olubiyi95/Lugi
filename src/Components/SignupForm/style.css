@@ -1,0 +1,158 @@
+.signup-form {
+    background-color: #282c34;
+    margin: 0 200px;
+    padding: 100px 300px;
+    position: relative;
+    height: 100vh;
+    color: #fff;
+}
+.signup-img {
+   text-align: center;
+    padding: 20px;
+}
+.password {
+    display: flex;
+}
+
+
+.signup-input .ant-input {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-variant: tabular-nums;
+    list-style: none;
+    font-feature-settings: 'tnum', "tnum";
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    min-width: 0;
+    padding: 4px 11px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: #282c34!important;
+    background-image: none;
+    border: none;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+.signup-input .ant-input:focus, .ant-input-focused {
+    border-color: #40a9ff;
+    box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+    border-right-width: 1px;
+    outline: 0;
+    color: #fff;
+    background-color: #282c34!important;
+}
+
+.signup-input input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    color: #fff;
+    background-color: #282c34!important;
+}
+
+
+.signup-input .ant-input-affix-wrapper > input.ant-input:focus {
+    box-shadow: none !important;
+   
+}
+.signup-input .ant-input-affix-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    min-width: 0;
+    padding: 4px 11px;
+   
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: #282c34!important;
+    background-image: none;
+    border: none;
+    border-radius: 2px;
+    transition: all 0.3s;
+    display: inline-flex;
+}
+.ant-input-affix-wrapper > input.ant-input {
+    padding: 0;
+    border: none;
+    outline: none;
+    color: #fff;
+}
+.ant-input:focus, .ant-input-focused {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+    border-right-width: 1px;
+    outline: 0;
+    background-color: #282c34!important;
+}
+.ant-input:hover {
+    border-color: #0d6efd;
+    border-right-width: 1px;
+}
+.signup-input .ant-input-affix-wrapper > input.ant-input {
+    padding: 0;
+    border: none;
+    outline: none;
+    background-color: #282c34!important;
+}
+.signup-input .anticon svg {
+    display: inline-block;
+    color: #fff;
+}
+
+.signup-btn .btn:hover {
+    color: #fff!important;
+}
+
+.signup-btn .ladda-button[data-loading] .ladda-progress {
+    display: block!important;
+}
+
+.signup-btn .submit_button_active, .submit_button_active:hover {
+    width: 100%;
+    background: blue;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    font-style: normal;
+    line-height: 17px;
+    text-align: center;
+    height: 50px;
+}
+
+.signup-btn, .ladda-button {
+    color: #fff!important;
+    font-size: 14px;
+    border: none;
+    background: blue;
+    border-color: blue;
+    width: 100%;
+    height: 50px;
+    position: relative!important;
+}
+
+.signup-btn .ladda-button .ladda-spinner {
+    position: absolute;
+    z-index: 2;
+    display: inline-block!important;
+    width: 50px;
+    margin-top: 0;
+    opacity: 0;
+    pointer-events: none;
+} 
+/* .signup-btn .ladda-button .ladda-progress {
+    position: absolute;
+    width: 0;
+    height: 50px!important;
+    left: 0;
+    top: 0;
+    background: yellow!important;
+    transition: 0.1s linear all;
+} */
+/* .signup-account p {
+    font-size: 14px;
+}
+.signup-account a:hover {
+text-decoration: underline!important;
+} */

@@ -1,0 +1,13 @@
+.error img {
+width: 15px!important;
+margin-right: 5px;
+margin-bottom: 4px;
+}
+.error {
+    margin-top:5px;
+    justify-content: center;
+    align-items: center;
+}
+.error span {
+    margin-top: 25px!important;
+}
