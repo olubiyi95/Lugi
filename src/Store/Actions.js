@@ -1,10 +1,11 @@
 import * as types from './ActionTypes'
 import { dataBase } from '../Firebase/Config'
-import firebase from 'firebase/compat/app';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,  } from 'firebase/auth';
 import { auth } from '../Firebase/Config'
 import { toast } from 'react-toastify';
-import { useState, useEffect, createContext } from 'react';
+
+
+
 
 
 
@@ -47,17 +48,23 @@ const updateEmployee = () => ({
     type: types.UPDATE_EMPLOYEE,
 })
 
+const getDetail = (getUser) => ({
+    type: types.GET_DETAILS,
+    payload: getUser
+})
+const upDateProfileImage = (getUser) => ({
+    type: types.GET_PROFILEPICTURE,
+    payload: getUser
+})
 
-
-
-export const signUpUser = ({ email, password, userName }, callback) => {
+export const signUpUser = ({ email, password, userName, userType }, callback) => {
 
     return async function (dispatch) {
         try {
            const cred =  await createUserWithEmailAndPassword(auth, email, password)
                 .then(cred => {
-                    const credData = { email: cred.user.email, password: password, userName: userName };
-                    dataBase.collection("Admin Record").doc(cred.user.uid).set(credData);
+                  const credData = { email: cred.user.email, password: password, userName: userName, userType:userType };
+                    dataBase.collection("Users").doc(cred.user.uid).set(credData);
                     return cred
                 })
                 .then(cred => {
@@ -66,8 +73,8 @@ export const signUpUser = ({ email, password, userName }, callback) => {
                 })
         }
         catch (error) {
-            toast.error(error.message);
-            console.log(error.message);
+            // toast.error(error.message);
+            callback({error: true, ...error} )
         }
     }
 }
@@ -75,18 +82,37 @@ export const LogInUser = ({ email, password }, callback = () => {}) => {
 
     return async function (dispatch) {
         try {
-            const user = await signInWithEmailAndPassword(auth, email, password)
-                .then(user => {
-                    return user
-                })
-                .then(cred => {
-                    dispatch(logIn(cred.user));
-                    let credUid =cred.user.uid
-                    let credSerial = JSON.stringify(credUid)
-                    localStorage.setItem("mykey",credSerial);
-                    console.log(localStorage,  "DYNAMIC")
-                    callback(cred.user);
-                })
+            const loggedInUser = await signInWithEmailAndPassword(auth, email, password)
+                .then(cred => { return cred.user; });
+
+            dispatch(logIn(loggedInUser));
+            let loggedInUID = loggedInUser.uid
+            localStorage.setItem("UID", loggedInUID);
+            const userDataSnapShot = await dataBase.collection("Users").doc(loggedInUID).get();
+            const userData = {...userDataSnapShot.data(),id:userDataSnapShot.id };
+    
+            dispatch(getDetail(userData));
+            callback(userData);
+        }
+        catch (error) {
+            // toast.error(error.message);
+            callback({error: true, ...error});
+        }
+    }
+}
+
+export const LogInUserWithUid = (callback = () => {}) => {
+    return  async function (dispatch) {
+        try {
+            const userId = localStorage.getItem("UID")
+            if (userId) {
+                const userDataSnapShot = await dataBase.collection("Users").doc(userId).get();
+                const userData = {...userDataSnapShot.data(), id:userDataSnapShot.id};
+                
+                dispatch(getDetail(userData));
+            }
+            // console.log('login UID');
+            return callback();
         }
         catch (error) {
             toast.error(error.message);
@@ -97,24 +123,27 @@ export const LogInUser = ({ email, password }, callback = () => {}) => {
 
 
 
+
 export const LogOutUser = async() => {
+
         try {
             const user = await signOut(auth)
+            localStorage.removeItem('UID');      
         } catch (error) {
             toast.error(error.message);
         }
 }
 
-export const addEmployeeInitiate = ({ email, password, firstName, lastName, confirmPassword, role, phoneNumber, userName }) => {
+export const addEmployeeInitiate = ({ email, password, firstName, lastName, confirmPassword, role, phoneNumber, userName, userType }) => {
     return async function (dispatch) {
         try {
             await createUserWithEmailAndPassword(auth, email, password)
                 .then(employee => {
                     const employeeData = {
                         firstName: firstName, lastName: lastName, email: employee.user.email, password: password,
-                        confirmPassword: confirmPassword, userName: userName, role: role, phoneNumber: phoneNumber
+                        confirmPassword: confirmPassword, userName: userName, role: role, phoneNumber: phoneNumber, userType:userType
                     }
-                    dataBase.collection("Employee Record").doc(employee.user.uid).set(employeeData);
+                    dataBase.collection("Users").doc(employee.user.uid).set(employeeData);
                     dispatch(addEmployee(employee));
                 })
         }
@@ -129,7 +158,7 @@ export const addEmployeeInitiate = ({ email, password, firstName, lastName, conf
 export const getEmployeesInitiate = (callbackFunc) => {
     return function (dispatch) {
         try {
-            dataBase.collection("Employee Record").onSnapshot((querySnapshot) => {
+            dataBase.collection("Users").onSnapshot((querySnapshot) => {
                 const employees = [];
                 let i = 0;
                 querySnapshot.forEach((doc) => {
@@ -140,7 +169,7 @@ export const getEmployeesInitiate = (callbackFunc) => {
                 callbackFunc();
             })   
         } catch (error) {
-            toast.error("Unable to loadd data, please try again later");
+            toast.error("Unable to load data, please try again later");
             callbackFunc({error: true, ...error});
         }
     }
@@ -149,19 +178,39 @@ export const getEmployeesInitiate = (callbackFunc) => {
 
 export const deleteEmployeeInitiate = (id) => {
     return function (dispatch) {
-        dataBase.collection("Employee Record").doc(id).delete()
-        dispatch(deleteEmployee(id));
+        try {
+            dataBase.collection("Users").doc(id).delete()
+            dispatch(deleteEmployee(id));
+        } catch (error) {
+            console.log(error);
+        }
+      
     }
 }
 
 
 export const updateEmployeeInitiate = (id, employee) => {
-    return function (dispatch) {
-        dataBase.collection("Employee Record").doc(id).update(employee);
-        dispatch(updateEmployee())
+    return async function (dispatch) {
+        try {
+            dataBase.collection("Users").doc(id).update(employee);
+            dispatch(updateEmployee())
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 
+export const updateEmployeePaasword = (id ,newPassword) => {
+    return async function (dispatch) {
+        try {
+        dataBase.collection("Users").doc(id).update({password:newPassword, confirmPassword:newPassword});
+            dispatch(updateEmployee())
+            // callback(updatedPassword)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 
 
 

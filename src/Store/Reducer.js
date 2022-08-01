@@ -5,6 +5,7 @@ const initialState = {
     user: {},
     employee: {},
     employees: [],
+    getUser: {},
 }
 
 
@@ -29,6 +30,14 @@ const employeeReducer = (state = initialState, action) => {
                 employee:action.payload,
                 employees: action.payload
             };
+
+            case types.GET_DETAILS:
+                return {
+                    ...state,
+                    getUser: action.payload
+                };
+
+
         default:
             return state;
     }

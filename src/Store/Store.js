@@ -20,7 +20,7 @@ if ( process.env.NODE_ENV === "development" ) {
 
  store.subscribe(() => {
      console.log("STATE UPDATED");
-     console.log(store.getState());
+    //  console.log(store.getState());
  })
 
 

@@ -8,10 +8,8 @@ import * as Yup from 'yup';
 import TextError from '../TextError/TextError';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
-import { LogInUser } from '../../Store/Actions';
+import { LogInUser, getDetails } from '../../Store/Actions';
 import { useDispatch, useSelector } from 'react-redux';
-
-
 import './style.css'
 
  const EmployeeLoginPage = () => {
@@ -50,7 +48,7 @@ const formik = useFormik({
     setLaddaProgress(0.5);
    
     dispatch(LogInUser(values, res => {
-      console.log({ res });
+      // console.log({ res });
       let userID = res.uid
       let uUid = userID
       if (!uUid) {
@@ -61,11 +59,13 @@ const formik = useFormik({
         setLaddaLoading(true);
         navigate('/profile');
         toast.success("Login Successful")
+        // getDetails()
       }
       setLaddaProgress(1);
       setLaddaLoading(false);
       setSubmitting(false);
     }));
+    
   },
 });
 
@@ -93,7 +93,7 @@ const buttonStyle = () => {
                     <div className='ecredentials'>
                     <form onSubmit={formik.handleSubmit} autoComplete="off">
                     <div className="mb-3 elogin-input">
-                        <label htmlFor="exampleInputEmail1" class="form-label text-dark">Email address</label>
+                        <label htmlFor="exampleInputEmail1" className="form-label text-dark">Email address</label>
                         <Input
                         name='email'
                         type='text'
@@ -109,8 +109,8 @@ const buttonStyle = () => {
                         ) : null}      
                     </div>
 
-            <div class="mb-3 elogin-input">
-                        <label htmlFor="exampleInputEmail1" class="form-label text-dark">Enter Password</label>
+            <div className="mb-3 elogin-input">
+                        <label htmlFor="exampleInputEmail1" className="form-label text-dark">Enter Password</label>
                         <Input.Password 
                         name='password'
                         type='text'

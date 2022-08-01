@@ -16,17 +16,15 @@ const EmployeeUpdateForm = (props) => {
     const {  onCompleteUpdate , item, refresh } = props
     const [laddaLoading, setLaddaLoading] = useState(false);
     const [laddaProgress, setLaddaProgress] = useState(0);
-    const [firstName, setFirstName] = useState(item.firstName);
-    const [lastName, setLastName] = useState(item.lastName);
-    const [userName, setUserName] = useState(item.userName);
-    const [email, setEmail] = useState(item.email);
-    const [password, setPassword] = useState(item.password);
-    const [confirmPassword, setConfirmPassword] = useState(item.confirmPassword);
-    const [role, setRole] = useState(item.role);
-    const [phoneNumber, setPhoneNumber] = useState(item.phoneNumber);
     const dispatch = useDispatch()
-    const { employee } = useSelector( state => state.data );
+   
 
+
+    const options = [
+        {label: "Select User Type",  key:" "},
+        {label: "User", key:"User"}
+    ]
+  
 
     const validationSchema = Yup.object({
         firstName: Yup.string()
@@ -55,6 +53,8 @@ const EmployeeUpdateForm = (props) => {
             .required('Phone number is required'),
         role: Yup.string()
             .required('Role is required'),
+        userType: Yup.string()
+            .required('User type is required')
     })
 
     const formik = useFormik({
@@ -66,7 +66,8 @@ const EmployeeUpdateForm = (props) => {
             confirmPassword: item.confirmPassword,
             email: item.email,
             role: item.role,
-            phoneNumber: item.phoneNumber
+            phoneNumber: item.phoneNumber,
+            userType:item.userType
         }, id: " ",
         validationSchema: validationSchema,
         enableReinitialize: true,
@@ -113,7 +114,6 @@ const EmployeeUpdateForm = (props) => {
                                     name='firstName'
                                     type='text'
                                     placeholder="Enter Firstname"
-                                    onInput={(event) => { setFirstName(event.target.value) }}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.firstName}
@@ -129,7 +129,6 @@ const EmployeeUpdateForm = (props) => {
                                     name='userName'
                                     type='text'
                                     placeholder="Enter Username"
-                                    onInput={(event) => { setUserName(event.target.value) }}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.userName}
@@ -145,7 +144,6 @@ const EmployeeUpdateForm = (props) => {
                                     name='password'
                                     type='text'
                                     placeholder="Enter password"
-                                    onInput={(event) => { setPassword(event.target.value) }}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.password}
@@ -161,7 +159,6 @@ const EmployeeUpdateForm = (props) => {
                                     name='role'
                                     type='text'
                                     placeholder="Enter Role"
-                                    onInput={(event) => { setRole(event.target.value) }}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.role}
@@ -179,7 +176,6 @@ const EmployeeUpdateForm = (props) => {
                                     name='lastName'
                                     type='text'
                                     placeholder="Enter Lastname"
-                                    onInput={(event) => { setLastName(event.target.value) }}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.lastName}
@@ -195,7 +191,6 @@ const EmployeeUpdateForm = (props) => {
                                     name='email'
                                     type='text'
                                     placeholder="Enter email"
-                                    onInput={(event) => { setEmail(event.target.value) }}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.email}
@@ -211,7 +206,6 @@ const EmployeeUpdateForm = (props) => {
                                     name='confirmPassword'
                                     type='text'
                                     placeholder="Confirm password"
-                                    onInput={(event) => { setConfirmPassword(event.target.value) }}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.confirmPassword}
@@ -227,7 +221,6 @@ const EmployeeUpdateForm = (props) => {
                                     name='phoneNumber'
                                     type='text'
                                     placeholder="Enter Phone Number"
-                                    onInput={(event) => { setPhoneNumber(event.target.value) }}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.phoneNumber}
@@ -239,27 +232,46 @@ const EmployeeUpdateForm = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className='login-btn'>
+
+                    <div>
+                    <label htmlFor="exampleInputPassword1" className="form-label">Select User Type</label>
+                        <div className='mb-3 signup-input'>
+                            <select name='userType'
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            className="select-input "
+                            >
+                             {options.map(option =>
+                              <option key={option.key} value={option.value}>{option.label}</option>
+                              )}
+                            </select>
+                            
+                               {formik.touched.userType && formik.errors.userType ? (
+                                <TextError errMessage={formik.errors.userType} />
+                            ) : null}  
+                        </div>
+                    </div>
+
+                    <div className='signup-btn'>
                         <LaddaButton
-                            className={` mt-4 btn ${true ? buttonStyle() : "btn-primary"
-                                }  transition-3d-hover`}
+                            className={`btn ${true ? buttonStyle() : "btn-primary"
+                            }  transition-3d-hover`}
                             disabled={
-                                !(formik.isValid && formik.dirty) || formik.isSubmitting
+                            !(formik.isValid && formik.dirty) || formik.isSubmitting
                             }
+                            type='submit'
                             loading={laddaLoading}
                             progress={laddaProgress}
                             data-color="#fff"
                             data-size={XL}
                             data-style={SLIDE_UP}
                             data-spinner-size={30}
-                            data-spinner-color="#fff"
+                            data-spinner-color="#ddd"
                             data-spinner-lines={12}
-                            type='submit'
-
                         >
-                            Update Employee Record
+                           Update Employee Record
                         </LaddaButton>
-                    </div>
+                        </div>
                 </form>
             </div>
         </>
@@ -268,22 +280,3 @@ const EmployeeUpdateForm = (props) => {
 
 export default EmployeeUpdateForm
 
-// try {
-//     dataBase.collection("Employee Record").doc(item.id).update({
-//         firstName: firstName,
-//         lastName: lastName,
-//         userName: userName,
-//         email: email,
-//         password: password,
-//         confirmPassword: confirmPassword,
-//         role: role,
-//         phoneNumber: phoneNumber
-//     }).then(() => {
-//         onCompleteUpdate()
-//         toast.success("Employee Updated");
-//     }).catch((error) => {
-//         toast.error("Something went wrong")
-//     })
-// } catch (error) {
-//     console.log(error)
-// }

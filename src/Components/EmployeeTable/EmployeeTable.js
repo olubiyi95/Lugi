@@ -3,7 +3,7 @@ import { Table, Button } from 'antd';
 import { Modal } from 'antd';
 import { lazy, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployeesInitiate, deleteEmployeesInitiate } from '../../Store/Actions';
+import { getEmployeesInitiate} from '../../Store/Actions';
 import { Spin } from 'antd';
 import './style.css'
 
@@ -30,23 +30,17 @@ const EmployeeDeleteModal = lazy(() => {
 
 const EmployeeTable = ({ refresh }) => {
 
+  const { employees } = useSelector(state => state.data); 
   const [item, setItem] = useState("")
   const [modal1Visible, setModal1Visible] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modalTitle, setModalTitle] = useState('edit');
   const dispatch = useDispatch()
-  const { employees } = useSelector(state => state.data); 
   const [value, setValue] = useState("");
   const [dataSource, setDataSource] = useState([]);
   const [tableFilter, setTableFilter] = useState([]);
   const [ workSpin, setWorkSpin ] = useState(true)
-  // const [ids, setIds] = useState([]);
- 
-  // let ids = []
-
-  // console.log('Here',selectedRowKeys)
-
   
   const columns = [
     {
@@ -80,14 +74,14 @@ const EmployeeTable = ({ refresh }) => {
           <>
             <div className='actions'>
               <button className='edit bg-primary border-0 rounded text-light mx-2 px-3' onClick={(e) => {
-                console.log('-----edit');
+                // console.log('-----edit');
                 setItem(item);
                 setModal1Visible(true)
                 setModalTitle('edit')
               }}>Edit</button>
               <button className='delete bg-danger border-0 rounded text-light '
                 onClick={(e) => {
-                  console.log('---delete');
+                  // console.log('---delete');
                   setItem(item);
                   setModal1Visible(true)
                   setModalTitle('delete')
@@ -99,25 +93,7 @@ const EmployeeTable = ({ refresh }) => {
     },
   ];
 
-    // console.log('NOWWWWWWWWW',tableFilter);
-
-    // tableFilter.map(cell => {
-    //   // console.log(cell);
-    //   const {id} = cell;
-    //   ids = id;
-    //   console.log(ids);
-    //   // setIds(id);
-    //   // console.log('nazzzz',id);
-      
-    // })
-    // ids.map((data, index) => {
-    //   if(index === 2){
-    //     console.log(data, 'Herere');
-    //   }
-    // })
-
-    
-    // console.log('qwertyuiop', ids);
+  //THIS FETCHES THE DATA FROM THE DATABASE ONCE THE COMPONENT IS LOADED, RESPONSIBLE FOR PUSHING THE DATA INTO THE STATE
   useEffect(() => {
     setLoading(true)
     dispatch(getEmployeesInitiate(() => {
@@ -126,10 +102,13 @@ const EmployeeTable = ({ refresh }) => {
     setLoading(false)
   }, [refresh])
 
+//THIS FETCHES THE DATA FROM THE DATABASE WHEN NOTHING IS BEING SEARCHED
   useEffect(() => {
     setDataSource(employees);
   }, [employees])
 
+
+  //THIS IS FOR THE SEARCH OPERATION, WHEN VALUES ARE ENTERED INTOTHE SEARCH BAR
   useEffect(() => {
     filterData(value)
   }, [value, dataSource]);
@@ -158,22 +137,22 @@ const EmployeeTable = ({ refresh }) => {
   const onCompleteUpdate = () => {
     setTimeout(()=> {
       setModal1Visible(false)
-    }, 5000)
+    }, 2000)
   }
   const onCompleteDelete = () => {
     setTimeout(()=> {
       setModal1Visible(false)
-    }, 5000)
+    }, 2000)
   }
 
   const filterData = (value) => {
-    // console.log(dataSource);
+   
     if (value != "") {
       const filterTable = dataSource.filter( o => Object.keys(o).some(k =>
         String(o[k]).toLowerCase().includes(value.toLowerCase())
       ));
       setTableFilter(filterTable)
-    } else {
+    } else {           
       setTableFilter(dataSource);
     }
 
@@ -199,7 +178,7 @@ const EmployeeTable = ({ refresh }) => {
         </span>
       </div>
       <div className="input-group input-group-lg">
-        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder='Search for employee'
+        <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder='Search for employee'
           value={value} onChange={(e) => setValue(e.target.value)}
         />
       </div>
@@ -234,30 +213,3 @@ const EmployeeTable = ({ refresh }) => {
 };
 export default EmployeeTable
 
-
-
-
-// {value.length > 0 ? tableFilter.map((data) => {
-//   <div className='tables '>
-//   <Table rowSelection={rowSelection} columns={columns} dataSource={employees} loading={loading} pagination={{
-//     pageSize:8
-//   }}
-//   />
-//  </div>
-//      }):
-//      <div className='tables '>
-//      <Table rowSelection={rowSelection} columns={columns} dataSource={employees} loading={loading} pagination={{
-//        pageSize:8
-//      }}
-//      />
-//    </div>
-//    }
-
-
-// const  mapStateToProps = ( state ) => {
-//   return {
-//     employees: state.employees
-//   }
-// }
-
-// export default connect(mapStateToProps)(EmployeeTable) 

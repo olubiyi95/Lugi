@@ -9,8 +9,7 @@ import TextError from '../TextError/TextError';
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux';
-import {  signUpUser, addAdminAsAUser } from '../../Store/Actions'
-import { useSelector, connect } from 'react-redux';
+import {  signUpUser } from '../../Store/Actions'
 import './style.css'
 
 
@@ -20,22 +19,18 @@ import './style.css'
 
 const SignupForm = () => {
    
-    
-    
-    // const toggle = () => {
-    //     setLoading(true)
-    //     setProgress(0.5)
-    // }
-   
+  const [ error, setError ] = useState("");
   const [laddaLoading, setLaddaLoading] = useState(false);
   const [laddaProgress, setLaddaProgress] = useState(0);
-  const [ userName, setUserName ] = useState(null)
-  const [ registerEmail, setRegisterEmail ] = useState(null)
-  const [ registerPassword, setRegisterPassord ] = useState(null)
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  // const { user } = useSelector(state => state.data);  
 
+  const options = [
+      {label: "Select User Type",  key:" "},
+      {label: "Administrator", key:"Administrator"}
+  ]
+
+  
   const validationSchema =  Yup.object({
     userName: Yup.string()
     .min(6,'Username must be at least 6 characters')
@@ -44,58 +39,54 @@ const SignupForm = () => {
     email: Yup.string()
     .email('invalid email format')
     .required('Email is required'),
-   
     password: Yup.string()
     .min(6,'Password must be at least 6 characters')
     .max(15,'Password must not be more than 15 characters')
-    .required('Password is required')
+    .required('Password is required'),
+    userType: Yup.string()
+    .required('User type is required')
 })
 
   const formik = useFormik({
     initialValues: {
       password: "",
       email: "",
-      userName: ""
+      userName: "",
+      // userType: "Administrator"
+      userType:""
     },
     validationSchema: validationSchema,
     onSubmit: async (values,{setSubmitting}) => {
+      // alert(JSON.stringify(values));
       setSubmitting(true);
       setLaddaLoading(true);
       setLaddaProgress(0.5);
       console.log(values)
       dispatch(signUpUser(values, res => {
+        let errorRes = res.code
+        let errorMsg = errorRes
         let userID = res.uid
         let uUid = userID
         if (!uUid) {
           toast.error("Signup Failed")
-          setLaddaLoading(true);
+          setLaddaLoading(false);
+          setSubmitting(false);
+          setError(errorMsg)
         } else {
           setLaddaLoading(true);
           setSubmitting(false);
           navigate('/login');
           toast.success("Signup Successful")
+          setError(errorRes)
         }
         setLaddaProgress(1);
         setLaddaLoading(false);
         setSubmitting(false);
       }))
-     
-      // setSubmitting(true) 
     },
   });
 
-  // const signUp = () => {
-  //   createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
-  // }
-
-  // const succesStyle = () => {
-  //   if (formik.isValid && formik.dirty && formik.submitCount === 1) {
-  //     console.log(formik)
-  //     return "password_success_reset_message";
-  //   } else {
-  //     return "password_success_reset_message d-none";
-  //   }
-  // }
+ 
   const buttonStyle = () => {
     if ((formik.isValid && formik.dirty) || formik.isSubmitting) {
       return "submit_button_active";
@@ -103,6 +94,7 @@ const SignupForm = () => {
       return "submit_button disabled";
     }
   };
+
     
     return (
         <>
@@ -113,16 +105,17 @@ const SignupForm = () => {
                     </div>
                     <h3 className='text-light text-center'>Creat Account</h3>
                     <p className='text-center '>Create an account to access our dashboard</p>
-                    
+                    {error && <div class="alert alert-danger" role="alert">
+                  {error}
+                  </div>}
                     <div className='credentials'>
                     <form onSubmit={formik.handleSubmit} autoComplete="off">
                       <div className="mb-3 signup-input">
-                          <label htmlFor="exampleInputEmail1" class="form-label">Username</label>
+                          <label htmlFor="exampleInputEmail1" className="form-label">Username</label>
                           <Input
                           name='userName'
                           type='text'
                           placeholder="Enter Username"
-                          onInput={(event) => { setUserName(event.target.value)}}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           value={formik.values.userName}
@@ -134,12 +127,11 @@ const SignupForm = () => {
                       </div>
 
                     <div className="mb-3 signup-input">
-                        <label htmlFor="exampleInputEmail1" class="form-label">Email address</label>
+                        <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                         <Input
                         name='email'
                         type='text'
-                        placeholder="Enter email"
-                        onInput={(event) => { setRegisterEmail(event.target.value)}}
+                        placeholder="Enter Email"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.email}
@@ -150,13 +142,12 @@ const SignupForm = () => {
                         ) : null}      
                     </div>
 
-            <div class="mb-3 signup-input">
-                        <label htmlFor="exampleInputPassword1" class="form-label">Password</label>
+                    <div className="mb-3 signup-input">
+                        <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                         <Input.Password 
                         name='password'
                         type='text'
-                        placeholder="Enter password"
-                        onInput={(event) => { setRegisterPassord(event.target.value)}}
+                        placeholder="Enter Password"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.password}
@@ -166,7 +157,29 @@ const SignupForm = () => {
                             <TextError errMessage={formik.errors.password} />
                         ) : null}  
                     </div>
+                   
 
+
+                    <div>
+                    <label htmlFor="exampleInputPassword1" className="form-label">Select User Type</label>
+                        <div className='mb-3 signup-input'>
+                            <select name='userType'
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            className="select-input "
+                            >
+                             {options.map(option =>
+                              <option key={option.key} value={option.value}>{option.label}</option>
+                              )}
+                            </select>
+                            
+                               {formik.touched.userType && formik.errors.userType ? (
+                                <TextError errMessage={formik.errors.userType} />
+                            ) : null}  
+                        </div>
+                    </div>
+        
+                      
                         <div className='signup-btn'>
                         <LaddaButton
                             className={`btn ${true ? buttonStyle() : "btn-primary"
@@ -199,13 +212,6 @@ const SignupForm = () => {
     
     }
     
-
-  // const mapDispatchToProps = (dispatch) => {
-  //   return {
-  //     signUp: (values)=> dispatch(signUpUser(values))
-  //   }
-  // }
-
     export default  SignupForm 
 
 

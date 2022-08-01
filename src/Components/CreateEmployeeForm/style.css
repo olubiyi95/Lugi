@@ -88,3 +88,20 @@
     opacity: 0;
     pointer-events: none;
 }  
+
+.employee-form .select-input {
+    padding: 6px 11px;
+    color: #282c34;
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: #fff!important;
+    border: 1px solid #d9d9d9!important;
+    border-radius: 2px;
+    transition: all 0.3s;
+    width: 100%;
+    outline: none;
+}
+.employee-form .ant-select-selection__placeholder{
+    color : blue;
+  }
+

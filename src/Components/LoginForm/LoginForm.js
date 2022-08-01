@@ -9,8 +9,9 @@ import TextError from '../TextError/TextError';
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from 'react-toastify'
 import { LogInUser } from '../../Store/Actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import './style.css'
+
 
 
 
@@ -20,12 +21,12 @@ import './style.css'
 
 const LoginForm = () => {
   let navigate = useNavigate();
+  const [error, setError] = useState("")
   const [laddaLoading, setLaddaLoading] = useState(false);
   const [laddaProgress, setLaddaProgress] = useState(0);
-  const [loginEmail, setLoginEmail] = useState();
-  const [loginPassword, setLoginPassword] = useState("")
   const dispatch = useDispatch();
-
+  const [userError, setUserError] = useState("")
+ 
 
   const validationSchema = Yup.object({
     // userName: Yup.string()
@@ -54,17 +55,41 @@ const LoginForm = () => {
       setLaddaProgress(0.5);
 
       dispatch(LogInUser(values, res => {
-        console.log({ res });
-        let userID = res.uid
+        let errorRes = res.code
+        let errorMsg = errorRes
+        let userID = res.id
+        let userRole = res.userType
         let uUid = userID
         if (!uUid) {
           toast.error("Login Failed")
           setLaddaLoading(true);
+          setSubmitting(false);
+          // navigate('/login');
+          setError(errorMsg)
         } else {
+          // setSubmitting(false);
+          // setLaddaLoading(true);
+          // navigate('/dashboard');
+          // toast.success("Login Successful")
+        }
+        if(uUid && userRole === "Administrator") {
+          navigate('/dashboard');
           setSubmitting(false);
           setLaddaLoading(true);
-          navigate('/dashboard');
           toast.success("Login Successful")
+        }
+        if(uUid && userRole === "User") {
+          navigate('/Profile');
+          setSubmitting(false);
+          setLaddaLoading(true);
+          toast.success("Login Successful")
+        }
+        if(uUid && !userRole){
+          const newError = "User Not Found"
+          setUserError(newError)
+          toast.error("Login Failed")
+          setLaddaLoading(true);
+          setSubmitting(false);
         }
         setLaddaProgress(1);
         setLaddaLoading(false);
@@ -82,8 +107,6 @@ const LoginForm = () => {
     }
   };
 
- 
-
   return (
     <>
       <div className='login-form '>
@@ -93,17 +116,17 @@ const LoginForm = () => {
           </div>
           <h3 className='text-light text-center'>Login</h3>
           <p className='text-center '>Login to access our dashboard</p>
-
+          {error && <div class="alert alert-danger" role="alert"> {error}</div>}
+          {userError && <div class="alert alert-danger" role="alert"> {userError}</div>}
           <div className='credentials'>
             <form onSubmit={formik.handleSubmit} autoComplete="off">
               <p className='error-catch'></p>
               <div className="mb-3 login-input">
-                <label htmlFor="exampleInputEmail1" class="form-label">Email address</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                 <Input
                   name='email'
                   type='text'
                   placeholder="Enter email"
-                  onInput={(event) => { setLoginEmail(event.target.value) }}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.email}
@@ -114,13 +137,12 @@ const LoginForm = () => {
                 ) : null}
               </div>
 
-              <div class="mb-3 login-input">
-                <label htmlFor="exampleInputPassword1" class="form-label">Password</label>
+              <div className="mb-3 login-input">
+                <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                 <Input.Password
                   name='password'
                   type='text'
                   placeholder="Enter password"
-                  onInput={(event) => { setLoginPassword(event.target.value) }}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.password}
@@ -164,33 +186,3 @@ const LoginForm = () => {
 }
 
 export default LoginForm;
-
-
-
- // const login = async () => {
-  //   try {
-  //     const user =  await signInWithEmailAndPassword(
-  //         auth,
-  //         loginEmail, 
-  //         loginPassword)
-  //     console.log(user)
-  // } catch (error) {
-  //     console.log(error.message)
-  // }
-  // };
-  // if (uid !== undefined) return <Link to ='/dashboard' />
-
-
-
-   // const succesStyle = () => {
-  //   if (formik.isValid && formik.dirty && formik.submitCount === 1) {
-  //     console.log(formik)
-  //     return "password_success_reset_message";
-  //   } else {
-  //     return "password_success_reset_message d-none";
-  //   }
-  // }
-
-   // const {user} = userDataReturn;
-  // console.log(user, 'USERDATATTTTTT')
-  // const [uid, setUid] = useState(null);

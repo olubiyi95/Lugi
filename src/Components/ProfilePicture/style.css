@@ -1,0 +1,74 @@
+.profile-upload {
+    position: relative;
+}
+.image-upload-preview {
+    width: 12rem;
+    height: 12rem;
+    border: 1px solid #222;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1rem;
+    clip-path: circle(50% at 50% 50% );
+    /* box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px; */
+}
+.image-upload-preview img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.upload-button {
+    color: #fff;
+    background: #222;
+    border-color:#ff3633;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+.upload-button:hover {
+    background: transparent;
+    color: #222;
+}
+.edit-button {
+    color: #fff;
+    background: #222;
+    border-color:#ff3633;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: -6px;
+    left: 200px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+.edit-button:hover {
+    background: transparent;
+    color: #222;
+}
+
+.delete-button{
+    color: #fff;
+    background: #222;
+    border-color:#ff3633;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 155px;
+    left: 200px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+.delete-button:hover {
+    background: transparent;
+    color: #222;
+}
+.progress-bar{
+    height: 15px;
+    background: red!important;
+    margin-top: 200px;
+    width: 10vw;
+  }

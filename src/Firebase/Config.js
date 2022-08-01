@@ -1,8 +1,8 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 import 'firebase/compat/firestore';
-import { getAuth, onAuthStateChanged  } from 'firebase/auth'
-// import { collection, getDoc, getDocs, addDoc, updateDoc, deleteDoc,doc } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
+
 
 
 const firebaseConfig = {
@@ -17,9 +17,13 @@ const firebaseConfig = {
 
   const app = firebase.initializeApp(firebaseConfig);
 
+  const storage = firebase.storage();
   const dataBase =  firebase.firestore();
  const auth = getAuth(app);
-//  const onAuth = onAuthStateChanged();
+ const timeStamp = firebase.firestore.FieldValue.serverTimestamp
+
  
 
- export { auth, dataBase }
+ 
+
+ export { auth, dataBase, storage, timeStamp }

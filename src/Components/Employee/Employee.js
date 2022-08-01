@@ -10,7 +10,7 @@ import './style.css'
 const CreateEmployeeForm = lazy(() => {
     return Promise.all([
       import("../CreateEmployeeForm/CreateEmplyeeForm"),
-      new Promise(resolve => setTimeout(resolve, 500))
+      new Promise(resolve => setTimeout(resolve, 1000))
     ])
     .then(([moduleExports]) => moduleExports);
   });
@@ -24,7 +24,7 @@ const CreateEmployeeForm = lazy(() => {
        const onComplete = () => {
         setTimeout(()=> {
             setModal1Visible(false)
-        }, 5000)
+        }, 2000)
         setRefresh(refresh+1)
         // fetchData()
       }
@@ -76,32 +76,4 @@ export default Employees
 
 
 
- // const { employees: data } = useSelector(state => state.data)
-    // const state = useSelector((state)=> state.data)
-    
-   
-
-
-    
-    //   const fetchData = () => {
-    //     dataBase.collection("Employee Record").get()
-    //     .then(snapshot=>{
-    //         // console.log(snapshot)
-    //         let employees = []
-    //         let i = 0;
-    //         snapshot.forEach( doc =>{
-    //             // console.log({doc: doc.data()});
-    //             employees.push({...doc.data(), id: doc.id, key: i})
-    //             i++;
-    //         })
-    //         setData(employees)
-    //     })
-    //     .catch((error)=> {
-    //         alert(error.message)
-    //       })
-    //   }
-    
-    //    useEffect(()=>{
-    //     fetchData()
-    //    },[])
-
+ 

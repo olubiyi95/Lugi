@@ -18,7 +18,11 @@ const CreateEmployeeForm = (props) => {
   const [laddaLoading, setLaddaLoading] = useState(false);
   const [laddaProgress, setLaddaProgress] = useState(0);
   const dispatch = useDispatch()
-//  const { employee } = useSelector( state => state.data)
+
+const options = [
+  {label:" ", key:""},
+  {label:"User", key:"User"}
+]
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
@@ -47,6 +51,8 @@ const CreateEmployeeForm = (props) => {
       .required('Phone number is required'),
     role: Yup.string()
       .required('Role is required'),
+      userType: Yup.string()
+      .required('User type is required')
   })
 
   const formik = useFormik({
@@ -58,13 +64,14 @@ const CreateEmployeeForm = (props) => {
         confirmPassword: "",
         email: "",
         role: "",
-        phoneNumber: ""
+        phoneNumber: "",
+        userType: ""
       },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
       setLaddaLoading(true);
       setLaddaProgress(0.5);
-      // console.log(values)
+    
       resetForm({ values: "" })
       try {
         dispatch(addEmployeeInitiate(values))
@@ -111,6 +118,7 @@ const CreateEmployeeForm = (props) => {
                   <TextError errMessage={formik.errors.firstName} />
                 ) : null}
               </div>
+
               <div className="mb-3 ">
                 <label htmlFor="exampleInputEmail1" className="form-label">Username</label>
                 <Input
@@ -126,6 +134,7 @@ const CreateEmployeeForm = (props) => {
                   <TextError errMessage={formik.errors.userName} />
                 ) : null}
               </div>
+
               <div className="mb-3 password">
                 <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                 <Input.Password
@@ -141,6 +150,7 @@ const CreateEmployeeForm = (props) => {
                   <TextError errMessage={formik.errors.password} />
                 ) : null}
               </div>
+
               <div className="mb-3 ">
                 <label htmlFor="exampleInputEmail1" className="form-label">Role</label>
                 <Input
@@ -156,6 +166,7 @@ const CreateEmployeeForm = (props) => {
                   <TextError errMessage={formik.errors.role} />
                 ) : null}
               </div>
+
             </div>
             <div className="col">
               <div className="mb-3 ">
@@ -173,6 +184,7 @@ const CreateEmployeeForm = (props) => {
                   <TextError errMessage={formik.errors.lastName} />
                 ) : null}
               </div>
+
               <div className="mb-3 ">
                 <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                 <Input
@@ -188,6 +200,7 @@ const CreateEmployeeForm = (props) => {
                   <TextError errMessage={formik.errors.email} />
                 ) : null}
               </div>
+
               <div className="mb-3 password">
                 <label htmlFor="exampleInputPassword1" className="form-label">Confirm Password</label>
                 <Input.Password
@@ -203,6 +216,7 @@ const CreateEmployeeForm = (props) => {
                   <TextError errMessage={formik.errors.confirmPassword} />
                 ) : null}
               </div>
+
               <div className="mb-3 ">
                 <label htmlFor="exampleInputEmail1" className="form-label">Phone Number</label>
                 <Input
@@ -220,6 +234,28 @@ const CreateEmployeeForm = (props) => {
               </div>
             </div>
           </div>
+
+         
+                  <div className='signup-user'>
+                    <label htmlFor="exampleInputPassword1" className="form-label">Select User</label>
+                        <div className='mb-3 signup-userinput'>
+                            <select name='userType'
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            className="select-input "
+                            >
+                             {options.map(option =>
+                              <option key={option.key} value={option.value}>{option.label}</option>
+                              )}
+                            </select>
+                            
+                               {formik.touched.userType && formik.errors.userType ? (
+                                <TextError errMessage={formik.errors.userType} />
+                            ) : null}  
+                        </div>
+                    </div>
+               
+
           <div className='addemployee-btn'>
             <LaddaButton
               className={` mt-4 btn ${true ? buttonStyle() : "btn-primary"
@@ -248,29 +284,6 @@ const CreateEmployeeForm = (props) => {
 
 export default CreateEmployeeForm
 
-
-
-
-
-
-
-  // dataBase.collection("Employee Record").add({
-      //   firstName: firstName,
-      //   lastName: lastName,
-      //   userName: userName,
-      //   email: email,
-      //   password: password,
-      //   confirmPassword: confirmPassword,
-      //   role: role,
-      //   phoneNumber: phoneNumber
-      // })
-      //   .then(() => {
-        
-      //     toast.success("Employee Added");
-      //     onComplete()
-      //   }).catch((error) => {
-      //     toast.error("Unable to add employee")
-      //   })
 
 
 

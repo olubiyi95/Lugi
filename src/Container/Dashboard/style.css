@@ -66,6 +66,10 @@
     justify-content: space-between;
     align-items: center;
 }
+.rightSide {
+    display: flex!important;
+    align-items: center;
+}
 .dashboard .ant-layout-sider-children {
     min-height: 972px;
     margin-top: -0.1px;

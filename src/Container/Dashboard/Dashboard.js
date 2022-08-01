@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -7,11 +7,10 @@ import {
     NotificationOutlined,
     MailOutlined, AppstoreOutlined, SettingOutlined
   } from '@ant-design/icons';
-  import { Layout,  Input } from 'antd';
+  import { Layout } from 'antd';
   import  img  from '../../assets/logo.png'
   import { useNavigate } from "react-router-dom";
-  import Employees from '../../Components/Employee/Employee'
-  import EmployeeLoginPage from '../../Components/EmployeeLogin/EmployeeLoginPage';
+  import Employees from '../../Components/Employee/Employee';
   import { Menu } from 'antd';
   import { useSelector } from 'react-redux';
   import { toast } from 'react-toastify';
@@ -21,24 +20,23 @@ import {
 
    export const Dashboard = () => {
 
-    const { user } = useSelector(state => state.data);
-    const { Header, Sider, Content } = Layout;
+    const { getUser } = useSelector(state => state.data);
+    const loggedUserName =   getUser.userName;
+    const { Sider, Content } = Layout;
     const [current, setCurrent] = useState('');
     const [defaultselected] = useState("")
     const [collapsed, setCollapsed] = useState(false);
-    const [ currentUser, setCurrentUser ] = useState(null)
     const navigate = useNavigate()
 
 const handleLogOutUser = async () => {
     try {
-        await LogOutUser
+        await LogOutUser()
         toast.success("Logout Successful")
         navigate("/login")
     } catch (error) {
         toast.error(error)
     }
 }
-
 
 
     function getItem(label, key, icon, children, type) {
@@ -110,6 +108,7 @@ const handleLogOutUser = async () => {
               <h5 className='text-light pt-1'>LUGI</h5>
               </div>
               <div className='rightSide'>
+                <p className='text-light pt-3 px-3'>{loggedUserName}</p>
                 <button className='admin-logout' onClick={handleLogOutUser}>Log out</button>
               </div>
             </div>
@@ -167,7 +166,6 @@ const handleLogOutUser = async () => {
              }}
            >
              <div className=''>
-               <EmployeeLoginPage/>
              </div>
            </Content>
         )}
