@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MdModeEdit,MdDeleteForever  } from 'react-icons/md';
+import { MdModeEdit  } from 'react-icons/md';
 import { ProgressBar } from '../ProfilePicture/ProgressBar';
 import { useSelector } from 'react-redux'
 import './style.css'
 import { UseStorage } from './UseStorage';
 import { useDispatch } from 'react-redux';
 import { LogInUserWithUid } from '../../Store/Actions'
-import { Spin } from 'antd';
+
 
 export const ProfilePictureUpload = () => {
     
@@ -14,34 +14,31 @@ export const ProfilePictureUpload = () => {
     const { getUser } = useSelector(state => state.data);
     const ProfileImage = getUser.url
     const [file, setFile] = useState();
-    const [previewUrl, setPreviewUrl] = useState("");
     const filePickerRef = useRef();
     const dispatch = useDispatch();
     const [ refresh, setRefresh ] = useState(0) 
-    const [workSpin, setWorkSpin] = useState(true)
-    const { progress, url, uploadFile, upLoaded, isLoading } = UseStorage();
-    // console.log(progress, "===PROGRESS" );
-    // console.log(url, "====UPURL");
+    const { progress, url, uploadFile, upLoaded } = UseStorage();
+    
    
-   
-   
-    // const onCompltePIctueUpload = () => {
-    //     setRefresh(refresh+1)
-    // }
+
+    useEffect(()=>{
+        console.log("-----USERDATARES");
+    }, [getUser])
+
     useEffect(()=>{
         console.log("REFRESHED");
         dispatch(LogInUserWithUid(()=>{
-            setWorkSpin(false)
+            // setWorkSpin(false)
         }))
     },[refresh])
 
       useEffect(()=>{
         console.log(url,"UPLOADED");
-        if(url){
+        if(url && upLoaded){
             setRefresh(refresh+1)
         }
         console.log(refresh,"===REST");
-      },[url])
+      },[url, upLoaded])
 
    
 
@@ -49,12 +46,6 @@ export const ProfilePictureUpload = () => {
         if (!file) {
             return;
         }
-        // const fileReader = new FileReader();      //THIS SETS THE SELECTED IMAGE TO THE SCREEN
-        // fileReader.onload=()=>{
-        //     setPreviewUrl(fileReader.result);
-        // };
-        // fileReader.readAsDataURL(file);
-        console.log('uploading');
         uploadFile(file);
     }, [file])
 
@@ -72,7 +63,7 @@ export const ProfilePictureUpload = () => {
 
     return (
         <div className='profile-upload'>
-            <div className=''>
+             <div className=''>
                 <input
                     ref={filePickerRef}
                     style={{ display: "none" }}
@@ -88,12 +79,12 @@ export const ProfilePictureUpload = () => {
                                 <button className='upload-button' type='button' onClick={pickedImageHandler}>+</button>
                             </div>
                         )}
-                          {/* <Spin size="small" spinning={workSpin} style={{ height: '100px' }}> */}
+                        
                              {ProfileImage && <img src={ProfileImage} alt="profile-image"></img>}
-                          {/* </Spin> */}
+        
                     </div>
                 </div>
-                {file && <ProgressBar progress={progress} setFile={setFile} />}
+                {file && <ProgressBar progress={progress} setFile={setFile} upLoaded={upLoaded} />}
                 <div>
                     {ProfileImage && (
                         <div>
@@ -103,8 +94,9 @@ export const ProfilePictureUpload = () => {
                         </div>
                     )}
                 </div>
-                {/* {file && <ProgressBar progress={progress} setFile={setFile} />} */}
+            
             </div>
+            
         </div>
     )
 }

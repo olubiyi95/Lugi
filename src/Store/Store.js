@@ -3,9 +3,6 @@ import  thunk  from 'redux-thunk';
 import logger from 'redux-logger';
 import RootReducer from "./RootReducer";
 
-// import rootSaga from './Sagas'
-
-
 
 const middleware = [thunk]
 
@@ -20,7 +17,6 @@ if ( process.env.NODE_ENV === "development" ) {
 
  store.subscribe(() => {
      console.log("STATE UPDATED");
-    //  console.log(store.getState());
  })
 
 

@@ -137,12 +137,12 @@ const EmployeeTable = ({ refresh }) => {
   const onCompleteUpdate = () => {
     setTimeout(()=> {
       setModal1Visible(false)
-    }, 2000)
+    })
   }
   const onCompleteDelete = () => {
     setTimeout(()=> {
       setModal1Visible(false)
-    }, 2000)
+    })
   }
 
   const filterData = (value) => {

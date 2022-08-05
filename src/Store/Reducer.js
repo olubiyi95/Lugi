@@ -46,11 +46,3 @@ const employeeReducer = (state = initialState, action) => {
 export default employeeReducer
 
 
-
-
-// console.log('--- payload', action.payload);
-// return {
-//     ...state,
-//     employee: action.employee,
-//     employees: action.employees
-// };

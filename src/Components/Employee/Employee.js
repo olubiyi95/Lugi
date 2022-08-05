@@ -24,7 +24,7 @@ const CreateEmployeeForm = lazy(() => {
        const onComplete = () => {
         setTimeout(()=> {
             setModal1Visible(false)
-        }, 2000)
+        })
         setRefresh(refresh+1)
         // fetchData()
       }

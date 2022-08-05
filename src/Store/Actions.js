@@ -52,10 +52,7 @@ const getDetail = (getUser) => ({
     type: types.GET_DETAILS,
     payload: getUser
 })
-const upDateProfileImage = (getUser) => ({
-    type: types.GET_PROFILEPICTURE,
-    payload: getUser
-})
+
 
 export const signUpUser = ({ email, password, userName, userType }, callback) => {
 

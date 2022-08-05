@@ -19,10 +19,7 @@ const [laddaLoading, setLaddaLoading] = useState(false);
 const [laddaProgress, setLaddaProgress] = useState(0);
 const dispatch = useDispatch();
 
-const options = [
-    {label: "Select User Type",  key:" "},
-    {label: "User", key:"User"}
-]
+
 
 const maritalOptions = [
     {label: "Select Maritak Status",  key:" "},
@@ -184,40 +181,7 @@ const buttonStyle = () => {
                             ) : null}
                         </div>
                     </div>
-                    {/* <div className="col-lg-6">
-                        <div className="mb-3 password">
-                            <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                            <Input.Password
-                                name='password'
-                                type='text'
-                                placeholder="Enter password"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.password}
-                                className={`{${formik.errors.password && formik.touched.password}`}
-                            />
-                            {formik.touched.password && formik.errors.password ? (
-                                <TextError errMessage={formik.errors.password} />
-                            ) : null}
-                        </div>
-                    </div> */}
-                    {/* <div className="col-lg-6">
-                        <div className="mb-3 password">
-                            <label htmlFor="exampleInputPassword1" className="form-label">Confirm Password</label>
-                            <Input.Password
-                                name='confirmPassword'
-                                type='text'
-                                placeholder="Confirm password"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.confirmPassword}
-                                className={`{${formik.errors.confirmPassword && formik.touched.confirmPassword}`}
-                            />
-                            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-                                <TextError errMessage={formik.errors.confirmPassword} />
-                            ) : null}
-                        </div>
-                    </div> */}
+                
                     <div className="col-lg-6">
                         <div className="mb-3 ">
                             <label htmlFor="exampleInputEmail1" className="form-label">Role</label>
@@ -291,29 +255,6 @@ const buttonStyle = () => {
                         </div>
                     </div>
             
-
-                    {/* <div className='col-lg-12'>
-                        <div className='modal-update'>
-                            <label htmlFor="exampleInputPassword1" className="form-label">Select User Type</label>
-                                <div className='mb-3 signup-input'>
-                                    <select name='userType'
-                                    onBlur={formik.handleBlur}
-                                    onChange={formik.handleChange}
-                                    className="select-input "
-                                    >
-                                    {options.map(option =>
-                                    <option key={option.key} value={option.value}>{option.label}</option>
-                                    )}
-                                    </select>
-                                
-                                    {formik.touched.userType && formik.errors.userType ? (
-                                        <TextError errMessage={formik.errors.userType} />
-                                    ) : null}  
-                            </div>
-                    </div> */}
-
-                   
-
                     <div className='modal-update-form-btn'>
                         <LaddaButton
                             className={`btn ${true ? buttonStyle() : "btn-primary"

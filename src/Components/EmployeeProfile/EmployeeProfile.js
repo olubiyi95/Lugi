@@ -11,6 +11,7 @@ import { Modal } from 'antd';
 import { useDispatch } from 'react-redux'
 import { LogInUserWithUid } from '../../Store/Actions'
 
+
 import './style.css'
 
 const EmployeeProfile = () => {    
@@ -34,13 +35,13 @@ const EmployeeProfile = () => {
     const onCompleteUpdate = () => {   //WHENEVER ANY CHANGE IS MADE THIS WILL REFETCH THE DATA BEING SHOWN ON THE PAGE
         setTimeout(()=> {
             setIsModalVisible(false)
-        }, 2000)
+        })
         setRefresh(refresh+1)
       }
       const onCompleteUpdate2 = () => {   //WHENEVER ANY CHANGE IS MADE THIS WILL REFETCH THE DATA BEING SHOWN ON THE PAGE
         setTimeout(()=> {
             setIsModalVisible2(false)
-        }, 2000)
+        })
         setRefresh(refresh+1)
       }
 
@@ -48,8 +49,13 @@ const EmployeeProfile = () => {
 
       useEffect(() => {   //WHENEVER ANY CHANGE IS MADE THIS WILL REFETCH THE DATA BEING SHOWN ON THE PAGE
         dispatch(LogInUserWithUid(() => {
+            // setWorkSpin(false)
         }))
       }, [refresh])
+
+    //   useEffect(()=>{
+       
+    //   },[getUser])
 
         const showModal = () => {
         setIsModalVisible(true);
@@ -86,7 +92,10 @@ const EmployeeProfile = () => {
         }
 
   return (
-    <div className='profile-update-page'>
+    <div>
+        
+        
+         <div className='profile-update-page'>
         <div className='profile-navbar'>
             <nav className="navbar navbar-expand-lg bg-dark">
                 <div className="container ">
@@ -143,7 +152,7 @@ const EmployeeProfile = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6">
-                       <ProfilePictureUpload  />
+                            <ProfilePictureUpload  />
                         </div>
                         <div className="col-lg-6">
                             <p><span className='items'>Firstname: </span> {loggedUserFirstName}</p>
@@ -159,6 +168,9 @@ const EmployeeProfile = () => {
                 </div>
             </div>
     </div>
+       
+    </div>
+   
   )
 }
 

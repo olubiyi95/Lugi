@@ -18,8 +18,6 @@ import './style.css'
   
   const [laddaLoading, setLaddaLoading] = useState(false);
   const [laddaProgress, setLaddaProgress] = useState(0);
-  const [ loginEmail, setLoginEmail ] = useState();
-  const [ loginPassword, setLoginPassword ] = useState("")
   const dispatch = useDispatch();
 
 
